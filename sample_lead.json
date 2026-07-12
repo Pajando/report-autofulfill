@@ -1,0 +1,38 @@
+{
+  "business": "Rivera Mobile Detailing",
+  "site": "riveramobiledetailing.com",
+  "name": "Maria",
+  "email": "test@example.com",
+  "score": 53,
+  "grade": "Half-invisible",
+  "pillars": {"Entity": 45, "Content": 44, "Code": 61, "Agents": 45},
+  "blocked": [],
+  "findings": [
+    ["JSON-LD structured data present", "pass", "Found: Product, Event"],
+    ["Organization / LocalBusiness identity schema", "fail", "Machines have no structured 'ID card' for your business"],
+    ["FAQPage schema (highest-impact type for AI answers)", "fail", "No FAQPage schema"],
+    ["All major AI engines allowed to read your site", "pass", "Open to all 10 AI ecosystems we check"],
+    ["sitemap.xml present (feeds Google AND Bing→ChatGPT)", "pass", "Sitemap found"],
+    ["llms.txt present", "fail", "Not found (a 20-minute nice-to-have, not a crisis)"],
+    ["Content readable without JavaScript", "pass", "4.2k characters of machine-readable text"],
+    ["Title & meta description", "pass", "Both present and descriptive"],
+    ["Question-style headings (answer-ready structure)", "fail", "12 headings found, none phrased as customer questions"],
+    ["Freshness signals (dates, current year)", "pass", "Current-year content detected"],
+    ["Pricing transparency", "fail", "No prices or pricing page detected"],
+    ["Linked profiles (socials, review sites)", "pass", "Linked: instagram, facebook"],
+    ["Machine-readable contact info", "pass", "Phone/contact detected"],
+    ["Online booking / purchase path", "pass", "Booking or purchase path detected"],
+    ["Secure connection (https)", "pass", "HTTPS in place"],
+    ["Is your Google Business Profile claimed, 100% complete, and updated in the last 30 days?", "verify", "It feeds Google's AI answers directly; inactive profiles lose impressions."],
+    ["Have you received (and responded to) reviews in the last 30 days?", "fail", "Volume, recency, and responses are core AI trust signals."],
+    ["Have you claimed Bing Places AND Apple Business (formerly Business Connect)?", "fail", "Bing Places feeds Microsoft Copilot and Alexa; Apple Business is the ONLY source Siri checks."],
+    ["Is your business listed with current info on Yelp (or your industry's main review site)?", "pass", "Alexa+ pulls local business data primarily from Yelp."]
+  ],
+  "fixes": [
+    {"t": "Organization / LocalBusiness identity schema", "f": "Add Organization or LocalBusiness JSON-LD with name, description, contact info, and a sameAs array linking every profile (Google, LinkedIn, socials, Yelp).", "w": 6},
+    {"t": "Is your Google Business Profile claimed, 100% complete, and updated in the last 30 days?", "f": "Claim and complete your Google Business Profile and post 1–2× per week — it feeds Gemini-powered answers directly.", "w": 6},
+    {"t": "FAQPage schema (highest-impact type for AI answers)", "f": "Build a FAQ page from your 10 most-asked customer questions and mark it up with FAQPage schema — the highest-impact schema for AI answers.", "w": 5},
+    {"t": "Pricing transparency", "f": "Publish prices or honest ranges. “Contact us for pricing” means the AI quotes your competitor's transparent page instead — and the agent books them.", "w": 5},
+    {"t": "Have you claimed Bing Places AND Apple Business (formerly Business Connect)?", "f": "Claim both free profiles: bingplaces.com (feeds Copilot + Alexa + ChatGPT's ecosystem) and business.apple.com (the only data source Siri and Apple Intelligence check for local businesses).", "w": 5}
+  ]
+}
