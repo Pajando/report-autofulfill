@@ -416,7 +416,8 @@ E.append(KeepTogether([
     "<b>aoaudit.gumroad.com/l/playbook</b><br/><br/>"
     "<b>Have it done for you — the Sprint, $497.</b> We implement everything in this report: schema "
     "installed and validated, all profiles claimed (Google, Bing, Apple, Yelp), FAQ page live, prices "
-    "published, and a before/after re-scan. <b>Every fix live within 14 days, or it's free.</b> "
+    "published, and a before/after re-scan. <b>Every fix implemented and verified, or it's free.</b> "
+    "Most sprints wrap in about two weeks. "
     "Reply “SPRINT” to claim a spot — limited to a few businesses at a time. "
     "(For scale: a traditional SEO agency runs $3,000–$8,000/month on a contract.)",
     LIGHT_AMBER, colors.HexColor("#B97A1E")),

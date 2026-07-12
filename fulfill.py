@@ -104,8 +104,8 @@ Two ways to get it all done:
    Get it here: https://aoaudit.gumroad.com/l/playbook
 
 2) DONE FOR YOU — The Sprint ($497): I implement everything in your report
-   in 14 days — schema, profiles, FAQ page, prices — or it's free.
-   Reply "SPRINT" to claim a spot (a few businesses at a time).
+   — schema, profiles, FAQ page, prices — done right, or it's free.
+   Most sprints wrap in about two weeks. Reply "SPRINT" to claim a spot.
 
 Questions about anything in the report? Just hit reply — a human reads this.
 
