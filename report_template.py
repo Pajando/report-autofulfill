@@ -412,8 +412,8 @@ E.append(KeepTogether([
   Spacer(1, 4),
   callout("TWO WAYS TO GET THIS DONE",
     "<b>Do it yourself — the Playbook, $39.</b> Every fix in this report, step by step, with the "
-    "copy-paste templates. 30-day no-questions refund. Reply to this email for the founding-member "
-    "link.<br/><br/>"
+    "copy-paste templates. 30-day no-questions refund. Get it now: "
+    "<b>aoaudit.gumroad.com/l/playbook</b><br/><br/>"
     "<b>Have it done for you — the Sprint, $497.</b> We implement everything in this report: schema "
     "installed and validated, all profiles claimed (Google, Bing, Apple, Yelp), FAQ page live, prices "
     "published, and a before/after re-scan. <b>Every fix live within 14 days, or it's free.</b> "

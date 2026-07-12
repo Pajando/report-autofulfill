@@ -101,7 +101,7 @@ Two ways to get it all done:
 
 1) DO IT YOURSELF — "Be the Answer: The AI-Search Authority Playbook" ($39)
    walks you through every fix step by step, with copy-paste templates.
-   Reply to this email and I'll send you the founding-member link.
+   Get it here: https://aoaudit.gumroad.com/l/playbook
 
 2) DONE FOR YOU — The Sprint ($497): I implement everything in your report
    in 14 days — schema, profiles, FAQ page, prices — or it's free.
