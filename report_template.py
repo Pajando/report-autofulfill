@@ -2,7 +2,7 @@
 """Personalized AI Visibility Report generator (Be the Answer).
 
 Edit the CLIENT dict below for each lead, then run:  python3 report_generator.py
-Output lands on the Desktop as "AI-Visibility-Report-<site>.pdf".
+Output lands on the Desktop as "AO-Report-<site>.pdf".
 """
 import os
 from reportlab.lib.pagesizes import letter
@@ -21,7 +21,7 @@ CLIENT = json.load(open(sys.argv[1]))
 
 W, H = letter
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.expanduser(
-    f"~/Desktop/AI-Visibility-Report-{CLIENT['site'].replace('/','')}.pdf")
+    f"~/Desktop/AO-Report-{CLIENT['site'].replace('/','')}.pdf")
 
 NAVY = colors.HexColor("#0F1B2D"); INK = colors.HexColor("#1E2A3A")
 SLATE = colors.HexColor("#4A5A6E"); TEAL = colors.HexColor("#0E7C66")
@@ -56,7 +56,7 @@ def cover_page(cv, doc):
     cv.setFillColor(NAVY); cv.rect(0, 0, W, H, fill=1, stroke=0)
     cv.setFillColor(TEAL_BRIGHT); cv.rect(0, H-0.5*inch, W, 0.5*inch, fill=1, stroke=0)
     cv.setFillColor(colors.HexColor("#7FC7B6")); cv.setFont("Helvetica-Bold", 12)
-    cv.drawString(1*inch, H-2.3*inch, "CONFIDENTIAL AI VISIBILITY REPORT")
+    cv.drawString(1*inch, H-2.3*inch, "CONFIDENTIAL AO REPORT · ANSWER OPTIMIZATION")
     biz = CLIENT.get("business") or CLIENT["site"]
     size = 38 if cv.stringWidth(biz, "Helvetica-Bold", 38) <= W - 2*inch else 30
     cv.setFillColor(colors.white); cv.setFont("Helvetica-Bold", size)
@@ -78,7 +78,7 @@ def cover_page(cv, doc):
     cv.drawString(1*inch, H-7.35*inch, "How visible your business is to ChatGPT, Gemini, Claude, Perplexity,")
     cv.drawString(1*inch, H-7.6*inch, "Google AI Mode, and the AI agents that now book and buy for customers.")
     cv.setFillColor(colors.HexColor("#8A97A8")); cv.setFont("Helvetica", 9.5)
-    cv.drawString(1*inch, 0.85*inch, "Prepared by Alejandro Ojeda · Be the Answer — AI Visibility · Scan data + live AI tests, July 2026")
+    cv.drawString(1*inch, 0.85*inch, "Prepared by Alejandro Ojeda · Be the Answer — aoaudit.com · Scan data + live AI tests, July 2026")
     cv.restoreState()
 
 def content_page(cv, doc):
@@ -88,8 +88,8 @@ def content_page(cv, doc):
     cv.line(0.9*inch, 0.62*inch, W-0.9*inch, 0.62*inch)
     cv.setFillColor(SLATE); cv.setFont("Helvetica", 8)
     biz = CLIENT.get("business") or ""
-    left = f"AI VISIBILITY REPORT — {biz.upper()} · {CLIENT['site'].upper()}" if biz \
-           else f"AI VISIBILITY REPORT — {CLIENT['site'].upper()}"
+    left = f"AO REPORT — {biz.upper()} · {CLIENT['site'].upper()}" if biz \
+           else f"AO REPORT — {CLIENT['site'].upper()}"
     cv.drawString(0.9*inch, 0.44*inch, left)
     cv.drawRightString(W-0.9*inch, 0.44*inch, f"{doc.page}")
     cv.restoreState()
@@ -144,7 +144,7 @@ def columns(pairs, width=430, height=170, highlight=0):
 # ---------- document ----------
 doc = BaseDocTemplate(OUT, pagesize=letter, leftMargin=0.9*inch, rightMargin=0.9*inch,
                       topMargin=0.72*inch, bottomMargin=0.85*inch,
-                      title=f"AI Visibility Report — {CLIENT['site']}", author="Be the Answer")
+                      title=f"AO Report — {CLIENT['site']}", author="Be the Answer")
 frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id="main")
 doc.addPageTemplates([PageTemplate(id="cover", frames=[frame], onPage=cover_page),
                       PageTemplate(id="content", frames=[frame], onPage=content_page)])
@@ -398,7 +398,7 @@ P(f"Completing the five priority fixes takes {CLIENT['site']} from <b>{CLIENT['s
 P("Re-measure monthly", "h2")
 P("Ask ChatGPT, Gemini, and Perplexity: “best [your category] in [your area]” and “what is "
   f"[{CLIENT['site'].split('.')[0]}]?” — log whether you're mentioned. Re-scan anytime at "
-  "<b>pajando.github.io/ai-visibility-audit</b> and watch the score climb as you fix.")
+  "<b>aoaudit.com</b> and watch the score climb as you fix.")
 SP(8)
 E.append(KeepTogether([
   Paragraph("What is the playbook?", S["h2"]),
@@ -421,7 +421,7 @@ E.append(KeepTogether([
     "(For scale: a traditional SEO agency runs $3,000–$8,000/month on a contract.)",
     LIGHT_AMBER, colors.HexColor("#B97A1E")),
   Spacer(1, 10),
-  Paragraph("Report prepared by Alejandro Ojeda · Be the Answer — AI Visibility · Data: live site scan "
+  Paragraph("Report prepared by Alejandro Ojeda · Be the Answer — aoaudit.com · Data: live site scan "
     "+ AI assistant tests, July 2026. Free-tier and platform behaviors change frequently; figures "
     "verified at time of writing.", S["small"]),
 ]))

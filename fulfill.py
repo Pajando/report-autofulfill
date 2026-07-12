@@ -17,7 +17,7 @@ from email.header import decode_header
 from datetime import date
 
 IMAP_HOST, SMTP_HOST = "imap.gmail.com", "smtp.gmail.com"
-LEAD_SUBJECT = "AI Visibility Audit lead"
+LEAD_SUBJECT = "AO Audit lead"
 SKIP_DOMAINS = ("example.com", "example.org", "test.com")
 
 VERDICTS = {
@@ -77,7 +77,7 @@ def generate_pdf(client):
         json.dump(client, f)
         cfg = f.name
     out = os.path.join(tempfile.mkdtemp(prefix="fulfill-"),
-                       f"AI-Visibility-Report-{client['site'].replace('/','')}.pdf")
+                       f"AO-Report-{client['site'].replace('/','')}.pdf")
     subprocess.run([sys.executable, os.path.join(here, "report_template.py"), cfg, out],
                    check=True)
     if not os.path.exists(out):
@@ -91,11 +91,11 @@ def send_report(user, pw, lead_email, client, pdf_path):
     msg = EmailMessage()
     msg["From"] = f"Alejandro Ojeda — Be the Answer <{user}>"
     msg["To"] = lead_email
-    msg["Subject"] = f"Your AI Visibility Report — {biz} ({client['score']}/100)"
+    msg["Subject"] = f"Your AO Report — {biz} ({client['score']}/100)"
     msg.set_content(f"""Hi {first},
 
-Your full AI Visibility Report for {biz} is attached — every finding from
-your scan explained, your score breakdown, and your prioritized fix list.
+Your full AO Report for {biz} is attached — your AO Score breakdown — every finding from
+your scan explained, and your prioritized fix list.
 
 Two ways to get it all done:
 
@@ -110,11 +110,11 @@ Two ways to get it all done:
 Questions about anything in the report? Just hit reply — a human reads this.
 
 Alejandro
-Be the Answer — AI Visibility
-https://pajando.github.io/ai-visibility-audit/""")
+Be the Answer — aoaudit.com
+https://aoaudit.com/""")
     with open(pdf_path, "rb") as f:
         msg.add_attachment(f.read(), maintype="application", subtype="pdf",
-                           filename=f"AI-Visibility-Report-{biz.replace(' ','-')}.pdf")
+                           filename=f"AO-Report-{biz.replace(' ','-')}.pdf")
     with smtplib.SMTP_SSL(SMTP_HOST, 465) as s:
         s.login(user, pw)
         s.send_message(msg)
