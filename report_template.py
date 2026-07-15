@@ -278,6 +278,40 @@ t.setStyle(TableStyle(style))
 E.append(t)
 PB()
 
+# ===== WHAT AI ACTUALLY SAID (optional) =====
+if CLIENT.get("ai_mention"):
+    am = CLIENT["ai_mention"]
+    P("THE REAL TEST", "kicker")
+    P("What AI Actually Said About You", "h1")
+    RULE()
+    P("We didn't just read your website — we asked the AI engines directly, the same way your customers "
+      "do. Here is the verbatim answer, and whether your business was named.", "body")
+    E.append(callout(am.get("summary","AI mention check"),
+        am.get("headline","Below is exactly what AI said when asked about your business and your category."),
+        LIGHT_AMBER, colors.HexColor("#B97A1E")))
+    SP(4)
+    for chk in am.get("checks", []):
+        eng, prompt, answer, mentioned = chk
+        badge = "✓ You were named" if mentioned else "✗ You were NOT named"
+        bcol = TEAL if mentioned else RED
+        block = [
+            Paragraph(f'<b>{eng}</b> &nbsp; <font color="#4A5A6E" size="8">asked:</font> '
+                      f'<font color="#4A5A6E"><i>“{prompt}”</i></font>',
+                      st(f"amq{eng}{prompt[:6]}", fontSize=10.5, spaceBefore=8, spaceAfter=2)),
+            Paragraph(answer, st(f"ama{eng}{prompt[:6]}", fontSize=9.5, leading=13.5, leftIndent=12,
+                      textColor=SLATE, spaceAfter=3, backColor=PALE, borderPadding=6)),
+            Paragraph(f'<b>{badge}</b>',
+                      st(f"amb{eng}{prompt[:6]}", fontName="Helvetica-Bold", fontSize=10,
+                         textColor=bcol, spaceAfter=4)),
+        ]
+        E.append(KeepTogether(block))
+    SP(4)
+    E.append(callout("WHY THIS IS THE WHOLE BALLGAME",
+        "This is not a guess about your website — it's what the machines say to a real customer, right "
+        "now. Every fix in this report exists to change that answer, so the next time someone asks, your "
+        "name is the one that comes up."))
+    PB()
+
 # ===== FIX ROADMAP =====
 P("THE PLAN", "kicker")
 P("Your 5 Priority Fixes", "h1")
