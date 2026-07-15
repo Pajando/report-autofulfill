@@ -1,0 +1,12 @@
+name: relay-probe
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: curl relays
+        run: |
+          for u in "https://api.allorigins.win/raw?url=https%3A%2F%2Faoaudit.com%2F" "https://api.codetabs.com/v1/proxy?quest=https%3A%2F%2Faoaudit.com%2F" "https://corsproxy.io/?url=https%3A%2F%2Faoaudit.com%2F"; do
+            echo "=== $u ==="
+            curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s\n" -m 20 "$u" || echo "FAILED exit $?"
+          done
