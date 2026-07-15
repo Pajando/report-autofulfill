@@ -295,6 +295,37 @@ for i, (title, why, how, impact, effort) in enumerate(CLIENT["fixes"], 1):
         Paragraph(f"<b>Do this:</b> {how}", st(f"fh{i}", fontSize=9.5, leading=13.5, leftIndent=16, spaceAfter=6)),
     ]
     E.append(KeepTogether(block))
+SP(8)
+# ---- Google Profile Scorecard ----
+gbp_items = [
+    ("Claimed & verified", "The profile is claimed and verified by you"),
+    ("100% complete", "Every field filled: categories, services, hours, description, photos"),
+    ("Active in last 30 days", "A post or update in the last month (quiet profiles lose visibility)"),
+    ("Reviews + responses", "Recent reviews, and you reply to them"),
+    ("Products / services listed", "Your offerings and prices are on the profile"),
+    ("Q&A seeded", "You've posted and answered common questions"),
+]
+gbp_rows = [[Paragraph("<b>Google Business Profile — your #1 local asset</b>", S["cellh"]),
+             Paragraph("<b>Check yours</b>", S["cellh"])]]
+for name, desc in gbp_items:
+    gbp_rows.append([Paragraph(f"<b>{name}</b><br/><font size='8' color='#4A5A6E'>{desc}</font>",
+                     st(f"gbp{name}", fontSize=9.5, leading=12, spaceAfter=0)),
+                     Paragraph("(  ) Yes     (  ) No", st(f"gc{name}", fontSize=9.5, spaceAfter=0))])
+gt = Table(gbp_rows, colWidths=[5.1*inch, 1.6*inch])
+gstyle = [("BACKGROUND",(0,0),(-1,0),NAVY),("VALIGN",(0,0),(-1,-1),"MIDDLE"),
+          ("LEFTPADDING",(0,0),(-1,-1),8),("RIGHTPADDING",(0,0),(-1,-1),8),
+          ("TOPPADDING",(0,0),(-1,-1),5),("BOTTOMPADDING",(0,0),(-1,-1),5),
+          ("LINEBELOW",(0,0),(-1,-2),0.5,LINE)]
+for r in range(1,len(gbp_rows)):
+    if r%2==0: gstyle.append(("BACKGROUND",(0,r),(-1,r),PALE))
+gt.setStyle(TableStyle(gstyle))
+E.append(KeepTogether([Paragraph("Your Google Profile scorecard", S["h2"]), Spacer(1,4), gt]))
+SP(4)
+E.append(callout("WHY THIS GETS ITS OWN SCORECARD",
+  "Google Business Profile is the single biggest local ranking factor there is — it feeds Google Maps "
+  "AND Gemini's answers directly. Count your Yes answers above: 5–6 is strong, 3–4 has real upside, "
+  "0–2 means you're leaving local customers on the table every day. Fixing it is free (Fix #2), and "
+  "keeping it optimized every month is the Google Profile Tune-Up on the last page."))
 SP(6)
 E.append(callout("A 30-DAY RHYTHM THAT WORKS",
   "Week 1: fixes 1–2 (schema + Google Business Profile). Week 2: fixes 3–4 (pricing page + FAQ). "
@@ -421,6 +452,13 @@ E.append(KeepTogether([
     "Reply “ANSWER” to claim a spot — limited to a few businesses at a time. "
     "(For scale: a traditional SEO agency runs $3,000–$8,000/month on a contract.)",
     LIGHT_AMBER, colors.HexColor("#B97A1E")),
+  Spacer(1, 6),
+  callout("KEEP IT WARM — GOOGLE PROFILE TUNE-UP ($149/mo)",
+    "Your Google Business Profile is your #1 local asset — it feeds Google Maps AND Gemini's answers, "
+    "and profiles that go quiet for 30+ days measurably lose visibility. After you're fixed, we keep it "
+    "working every month: fresh posts, review responses, Q&A, category and service tuning, and a monthly "
+    "report. $149/mo, no contract, cancel anytime. Reply “TUNEUP” to add it.",
+    LIGHT_TEAL, TEAL),
   Spacer(1, 10),
   Paragraph("Report prepared by Alejandro Ojeda · Be the Answer — aoaudit.com · Data: live site scan "
     "+ AI assistant tests, July 2026. Free-tier and platform behaviors change frequently; figures "
