@@ -453,11 +453,12 @@ E.append(KeepTogether([
     "(For scale: a traditional SEO agency runs $3,000–$8,000/month on a contract.)",
     LIGHT_AMBER, colors.HexColor("#B97A1E")),
   Spacer(1, 6),
-  callout("KEEP IT WARM — GOOGLE PROFILE TUNE-UP ($149/mo)",
-    "Your Google Business Profile is your #1 local asset — it feeds Google Maps AND Gemini's answers, "
-    "and profiles that go quiet for 30+ days measurably lose visibility. After you're fixed, we keep it "
-    "working every month: fresh posts, review responses, Q&A, category and service tuning, and a monthly "
-    "report. $149/mo, no contract, cancel anytime. Reply “TUNEUP” to add it.",
+  callout("KEEP IT WARM — AO CARE ($249/mo · founding rate $149)",
+    "Fixing your AO Score once is the start; staying the answer is the game. AO Care keeps your whole "
+    "score climbing every month: Google Business Profile upkeep (posts, reviews, Q&A, categories — your "
+    "#1 local asset, feeding Maps AND Gemini), a monthly re-scan so you can watch your number hold and "
+    "rise, and one improvement applied for you. $249/mo, no contract, cancel anytime — and the first 5 "
+    "businesses lock in a founding rate of $149/mo for life. Reply “CARE” to claim it.",
     LIGHT_TEAL, TEAL),
   Spacer(1, 10),
   Paragraph("Report prepared by Alejandro Ojeda · Be the Answer — aoaudit.com · Data: live site scan "
