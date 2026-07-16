@@ -29,7 +29,8 @@ NAVY = colors.HexColor("#211D18"); INK = colors.HexColor("#191919")
 SLATE = colors.HexColor("#5A554B"); TEAL = colors.HexColor("#176350")
 TEAL_BRIGHT = colors.HexColor("#1E8468")
 AMBER = colors.HexColor("#D97757"); RED = colors.HexColor("#C0392B")
-PALE = colors.HexColor("#FAF9F5"); LINE = colors.HexColor("#E7E1D6")
+PALE = colors.HexColor("#FFFFFF"); LINE = colors.HexColor("#DDD6CA")
+CREAM = colors.HexColor("#F4F1EC")
 LIGHT_TEAL = colors.HexColor("#E8F2EE"); LIGHT_AMBER = colors.HexColor("#FBF1E9")
 
 def band(score):
@@ -55,7 +56,7 @@ S = {
 
 def cover_page(cv, doc):
     cv.saveState()
-    cv.setFillColor(colors.white); cv.rect(0, 0, W, H, fill=1, stroke=0)
+    cv.setFillColor(CREAM); cv.rect(0, 0, W, H, fill=1, stroke=0)
     cv.setFillColor(TEAL_BRIGHT); cv.rect(0, H-0.5*inch, W, 0.5*inch, fill=1, stroke=0)
     cv.setFillColor(AMBER); cv.rect(0, H-0.57*inch, W, 0.07*inch, fill=1, stroke=0)
     cv.setFillColor(TEAL_BRIGHT); cv.setFont("Helvetica-Bold", 12)
@@ -92,6 +93,7 @@ def cover_page(cv, doc):
 
 def content_page(cv, doc):
     cv.saveState()
+    cv.setFillColor(CREAM); cv.rect(0, 0, W, H, fill=1, stroke=0)
     cv.setFillColor(TEAL_BRIGHT); cv.rect(0, H-0.26*inch, W, 0.26*inch, fill=1, stroke=0)
     cv.setStrokeColor(LINE); cv.setLineWidth(0.6)
     cv.line(0.9*inch, 0.62*inch, W-0.9*inch, 0.62*inch)
@@ -107,7 +109,7 @@ def content_page(cv, doc):
 def gauge(score, size=150):
     d = Drawing(size, size)
     cx = cy = size/2; r = size/2 - 4
-    d.add(Circle(cx, cy, r, fillColor=PALE, strokeColor=None))
+    d.add(Circle(cx, cy, r, fillColor=colors.HexColor("#E3DED2"), strokeColor=None))
     sweep = score * 3.6
     d.add(Wedge(cx, cy, r, 90 - sweep, 90, fillColor=band(score), strokeColor=None))
     d.add(Circle(cx, cy, r-16, fillColor=colors.white, strokeColor=None))
