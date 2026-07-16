@@ -4,12 +4,6 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: customer path
-        run: |
-          echo "=== worker fetches aoaudit.com (what a customer's scan does first) ==="
-          curl -s -m 20 -o /tmp/b -w "HTTP %{http_code} in %{time_total}s\n" -H "Origin: https://aoaudit.com" "https://ao-relay.aojedamedia.workers.dev/?url=https%3A%2F%2Faoaudit.com%2F" || echo FAILED
-          grep -c "AO Score" /tmp/b || echo "body missing"
-          echo "=== public relays (fallback tier) ==="
-          for u in "https://api.allorigins.win/raw?url=https%3A%2F%2Faoaudit.com%2F" "https://api.codetabs.com/v1/proxy?quest=https%3A%2F%2Faoaudit.com%2F"; do
-            curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s\n" -m 20 "$u" || echo FAILED
-          done
+      - uses: actions/checkout@v4
+      - name: audit
+        run: python3 probe/audit.py
