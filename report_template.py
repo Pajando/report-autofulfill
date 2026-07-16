@@ -320,6 +320,19 @@ if CLIENT.get("ai_mention"):
                          textColor=bcol, spaceAfter=4)),
         ]
         E.append(KeepTogether(block))
+    if am.get("competitors"):
+        SP(6)
+        P("Who's taking your answers", "h2")
+        P("These are the businesses AI actually named in your market on this check — not a guess, "
+          "a transcript. They are winning the recommendation moment your fixes are designed to take back.", "small")
+        comp_rows = [[Paragraph(f'<font color="#B4552D"><b>{i+1}</b></font>', S["cell"]),
+                      Paragraph(f"<b>{c}</b>", S["cell"])] for i, c in enumerate(am["competitors"])]
+        ct = Table(comp_rows, colWidths=[0.45*inch, 6.25*inch])
+        ct.setStyle(TableStyle([("VALIGN",(0,0),(-1,-1),"TOP"),
+            ("LEFTPADDING",(0,0),(-1,-1),8),("RIGHTPADDING",(0,0),(-1,-1),8),
+            ("TOPPADDING",(0,0),(-1,-1),5),("BOTTOMPADDING",(0,0),(-1,-1),5),
+            ("LINEBELOW",(0,0),(-1,-2),0.5,LINE)]))
+        E.append(ct)
     SP(4)
     E.append(callout("WHY THIS IS THE WHOLE BALLGAME",
         "This is not a guess about your website — it's what the machines say to a real customer, right "
