@@ -73,7 +73,7 @@ def cover_page(cv, doc):
     c = band(CLIENT["score"])
     cv.setFillColor(PALE); cv.roundRect(0.85*inch, H-7.0*inch, 5.6*inch, 2.55*inch, 14, fill=1, stroke=0)
     cv.setFillColor(TEAL_BRIGHT); cv.rect(0.85*inch, H-7.0*inch, 0.09*inch, 2.55*inch, fill=1, stroke=0)
-    cv.setFillColor(c); cv.setFont("Helvetica-Bold", 120)
+    cv.setFillColor(AMBER); cv.setFont("Helvetica-Bold", 120)
     cv.drawString(1.15*inch, H-6.05*inch, str(CLIENT["score"]))
     sw = cv.stringWidth(str(CLIENT["score"]), "Helvetica-Bold", 120)
     cv.setFillColor(colors.HexColor("#8A857B")); cv.setFont("Helvetica-Bold", 26)
