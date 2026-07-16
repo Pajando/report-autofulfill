@@ -58,13 +58,13 @@ def cover_page(cv, doc):
     cv.setFillColor(colors.white); cv.rect(0, 0, W, H, fill=1, stroke=0)
     cv.setFillColor(TEAL_BRIGHT); cv.rect(0, H-0.5*inch, W, 0.5*inch, fill=1, stroke=0)
     cv.setFillColor(AMBER); cv.rect(0, H-0.57*inch, W, 0.07*inch, fill=1, stroke=0)
-    cv.setFillColor(TEAL); cv.setFont("Helvetica-Bold", 12)
+    cv.setFillColor(TEAL_BRIGHT); cv.setFont("Helvetica-Bold", 12)
     cv.drawString(1*inch, H-2.2*inch, "CONFIDENTIAL AO REPORT · ANSWER OPTIMIZATION")
     biz = CLIENT.get("business") or CLIENT["site"]
     size = 38 if cv.stringWidth(biz, "Helvetica-Bold", 38) <= W - 2*inch else 30
     cv.setFillColor(INK); cv.setFont("Helvetica-Bold", size)
     cv.drawString(1*inch, H-2.95*inch, biz)
-    cv.setFillColor(AMBER); cv.rect(1*inch, H-3.22*inch, 1.6*inch, 0.08*inch, fill=1, stroke=0)
+    cv.setFillColor(TEAL_BRIGHT); cv.rect(1*inch, H-3.22*inch, 1.6*inch, 0.08*inch, fill=1, stroke=0)
     cv.setFillColor(AMBER); cv.setFont("Helvetica-Bold", 15)
     cv.drawString(1*inch, H-3.55*inch, CLIENT["site"])
     cv.setFillColor(SLATE); cv.setFont("Helvetica", 13)
@@ -72,6 +72,7 @@ def cover_page(cv, doc):
     # score panel
     c = band(CLIENT["score"])
     cv.setFillColor(PALE); cv.roundRect(0.85*inch, H-7.0*inch, 5.6*inch, 2.55*inch, 14, fill=1, stroke=0)
+    cv.setFillColor(TEAL_BRIGHT); cv.rect(0.85*inch, H-7.0*inch, 0.09*inch, 2.55*inch, fill=1, stroke=0)
     cv.setFillColor(c); cv.setFont("Helvetica-Bold", 120)
     cv.drawString(1.15*inch, H-6.05*inch, str(CLIENT["score"]))
     sw = cv.stringWidth(str(CLIENT["score"]), "Helvetica-Bold", 120)
