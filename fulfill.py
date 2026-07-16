@@ -178,6 +178,11 @@ def main():
             print(f"  lead {num.decode()}: no report_json (old-format lead) — leaving for manual handling")
             box.store(num, "+FLAGS", "\\Seen")
             continue
+        if data.get("relay_outage"):
+            # scan ran during a relay outage — automated findings are missing and the site
+            # promised "we'll run your full scan ourselves". Leave UNREAD for the human.
+            print(f"  lead {num.decode()}: RELAY OUTAGE during their scan — leaving unread for a manual full scan")
+            continue
         lead_email = (data.get("email") or "").strip()
         if not lead_email:
             # email lives in its own field; fall back to parsing the table
