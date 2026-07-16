@@ -80,14 +80,14 @@ def cover_page(cv, doc):
     cv.drawString(1.15*inch + sw + 10, H-6.05*inch, "/ 100")
     gtxt = CLIENT["grade"].upper()
     gw = cv.stringWidth(gtxt, "Helvetica-Bold", 16) + 0.5*inch
-    cv.setFillColor(c); cv.roundRect(1.15*inch, H-6.75*inch, gw, 0.46*inch, 10, fill=1, stroke=0)
+    cv.setFillColor(AMBER); cv.roundRect(1.15*inch, H-6.75*inch, gw, 0.46*inch, 10, fill=1, stroke=0)
     cv.setFillColor(colors.white); cv.setFont("Helvetica-Bold", 16)
     cv.drawString(1.4*inch, H-6.62*inch, gtxt)
     cv.setFillColor(SLATE); cv.setFont("Helvetica", 12.5)
     cv.drawString(1*inch, H-7.55*inch, "How visible your business is to ChatGPT, Gemini, Claude, Perplexity,")
     cv.drawString(1*inch, H-7.8*inch, "Google AI Mode, and the AI agents that now book and buy for customers.")
     cv.setFillColor(colors.HexColor("#8A857B")); cv.setFont("Helvetica", 9.5)
-    cv.drawString(1*inch, 0.85*inch, "Prepared by Alejandro Ojeda · Be the Answer — aoaudit.com · Scan data + live AI tests, July 2026")
+    cv.drawString(1*inch, 0.85*inch, "Prepared by The AO Audit · aoaudit.com")
     cv.restoreState()
 
 def content_page(cv, doc):
@@ -112,7 +112,7 @@ def gauge(score, size=150):
     d.add(Wedge(cx, cy, r, 90 - sweep, 90, fillColor=band(score), strokeColor=None))
     d.add(Circle(cx, cy, r-16, fillColor=colors.white, strokeColor=None))
     d.add(String(cx, cy-8, str(score), fontName="Helvetica-Bold", fontSize=34,
-                 fillColor=NAVY, textAnchor="middle"))
+                 fillColor=AMBER, textAnchor="middle"))
     d.add(String(cx, cy-24, "of 100", fontName="Helvetica", fontSize=9,
                  fillColor=SLATE, textAnchor="middle"))
     return d
