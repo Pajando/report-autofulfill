@@ -15,20 +15,22 @@ from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph,
                                 KeepTogether, NextPageTemplate)
 from reportlab.graphics.shapes import Drawing, Rect, String, Line, Circle, Wedge
 
+# ================== CLIENT LOADED FROM JSON ==================
 # CLIENT is loaded from a JSON file passed as argv[1] (built by fulfill.py)
 import json, sys
 CLIENT = json.load(open(sys.argv[1]))
+# ===================================================
 
 W, H = letter
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.expanduser(
     f"~/Desktop/AO-Report-{CLIENT['site'].replace('/','')}.pdf")
 
-NAVY = colors.HexColor("#0F1B2D"); INK = colors.HexColor("#1E2A3A")
-SLATE = colors.HexColor("#4A5A6E"); TEAL = colors.HexColor("#0E7C66")
-TEAL_BRIGHT = colors.HexColor("#22B899")
-AMBER = colors.HexColor("#E8A13C"); RED = colors.HexColor("#D95B4A")
-PALE = colors.HexColor("#F1F4F2"); LINE = colors.HexColor("#D3DAD6")
-LIGHT_TEAL = colors.HexColor("#E7F3F0"); LIGHT_AMBER = colors.HexColor("#FBF1DF")
+NAVY = colors.HexColor("#211D18"); INK = colors.HexColor("#191919")
+SLATE = colors.HexColor("#5A554B"); TEAL = colors.HexColor("#176350")
+TEAL_BRIGHT = colors.HexColor("#1E8468")
+AMBER = colors.HexColor("#D97757"); RED = colors.HexColor("#C0392B")
+PALE = colors.HexColor("#FAF9F5"); LINE = colors.HexColor("#E7E1D6")
+LIGHT_TEAL = colors.HexColor("#E8F2EE"); LIGHT_AMBER = colors.HexColor("#FBF1E9")
 
 def band(score):
     return TEAL_BRIGHT if score >= 65 else (AMBER if score >= 40 else RED)
@@ -55,7 +57,7 @@ def cover_page(cv, doc):
     cv.saveState()
     cv.setFillColor(NAVY); cv.rect(0, 0, W, H, fill=1, stroke=0)
     cv.setFillColor(TEAL_BRIGHT); cv.rect(0, H-0.5*inch, W, 0.5*inch, fill=1, stroke=0)
-    cv.setFillColor(colors.HexColor("#7FC7B6")); cv.setFont("Helvetica-Bold", 12)
+    cv.setFillColor(colors.HexColor("#7FCBB4")); cv.setFont("Helvetica-Bold", 12)
     cv.drawString(1*inch, H-2.3*inch, "CONFIDENTIAL AO REPORT · ANSWER OPTIMIZATION")
     biz = CLIENT.get("business") or CLIENT["site"]
     size = 38 if cv.stringWidth(biz, "Helvetica-Bold", 38) <= W - 2*inch else 30
@@ -63,21 +65,21 @@ def cover_page(cv, doc):
     cv.drawString(1*inch, H-3.05*inch, biz)
     cv.setFillColor(TEAL_BRIGHT); cv.setFont("Helvetica-Bold", 15)
     cv.drawString(1*inch, H-3.45*inch, CLIENT["site"])
-    cv.setFillColor(colors.HexColor("#C9D3E0")); cv.setFont("Helvetica", 13)
+    cv.setFillColor(colors.HexColor("#C9C4BA")); cv.setFont("Helvetica", 13)
     cv.drawString(1*inch, H-3.85*inch, f"Prepared for {CLIENT['contact']} · {CLIENT['date']}")
     # big score
     c = band(CLIENT["score"])
     cv.setFillColor(c); cv.setFont("Helvetica-Bold", 120)
     cv.drawString(1*inch, H-6.1*inch, str(CLIENT["score"]))
     sw = cv.stringWidth(str(CLIENT["score"]), "Helvetica-Bold", 120)
-    cv.setFillColor(colors.HexColor("#8A97A8")); cv.setFont("Helvetica-Bold", 26)
+    cv.setFillColor(colors.HexColor("#8A857B")); cv.setFont("Helvetica-Bold", 26)
     cv.drawString(1*inch + sw + 10, H-6.1*inch, "/ 100")
     cv.setFillColor(c); cv.setFont("Helvetica-Bold", 22)
     cv.drawString(1*inch, H-6.7*inch, CLIENT["grade"].upper())
-    cv.setFillColor(colors.HexColor("#C9D3E0")); cv.setFont("Helvetica", 12.5)
+    cv.setFillColor(colors.HexColor("#C9C4BA")); cv.setFont("Helvetica", 12.5)
     cv.drawString(1*inch, H-7.35*inch, "How visible your business is to ChatGPT, Gemini, Claude, Perplexity,")
     cv.drawString(1*inch, H-7.6*inch, "Google AI Mode, and the AI agents that now book and buy for customers.")
-    cv.setFillColor(colors.HexColor("#8A97A8")); cv.setFont("Helvetica", 9.5)
+    cv.setFillColor(colors.HexColor("#8A857B")); cv.setFont("Helvetica", 9.5)
     cv.drawString(1*inch, 0.85*inch, "Prepared by Alejandro Ojeda · Be the Answer — aoaudit.com · Scan data + live AI tests, July 2026")
     cv.restoreState()
 
@@ -132,7 +134,7 @@ def columns(pairs, width=430, height=170, highlight=0):
     for i, (label, val) in enumerate(pairs):
         x = gap + i*(colw+gap)
         bh = (height - base - 26) * val / maxv
-        col = band(val) if i == highlight else colors.HexColor("#C9D3D0")
+        col = band(val) if i == highlight else colors.HexColor("#C9C4BA")
         d.add(Rect(x, base, colw, bh, fillColor=col, strokeColor=None, rx=5, ry=5))
         d.add(String(x+colw/2, base+bh+7, str(val), fontName="Helvetica-Bold", fontSize=13,
                      fillColor=NAVY, textAnchor="middle"))
@@ -222,7 +224,7 @@ POWERS = {
 }
 for eng, open_ in CLIENT["engines"].items():
     eng_rows.append([Paragraph(f"<b>{eng}</b>", S["cell"]),
-                     Paragraph(f'<font color="{"#0E7C66" if open_ else "#D95B4A"}"><b>{"OPEN" if open_ else "BLOCKED"}</b></font>', S["cell"]),
+                     Paragraph(f'<font color="{"#176350" if open_ else "#C0392B"}"><b>{"OPEN" if open_ else "BLOCKED"}</b></font>', S["cell"]),
                      Paragraph(POWERS.get(eng, ""), S["celld"])])
 t = Table(eng_rows, colWidths=[2.0*inch, 0.85*inch, 3.85*inch], repeatRows=1)
 style = [("BACKGROUND",(0,0),(-1,0),NAVY),("VALIGN",(0,0),(-1,-1),"TOP"),
@@ -264,9 +266,9 @@ f_rows = [[Paragraph("<b>Check</b>", S["cellh"]), Paragraph("<b>Result</b>", S["
            Paragraph("<b>Solved in</b>", S["cellh"])]]
 for label, ok, detail, fixref in CLIENT["findings"]:
     f_rows.append([Paragraph(label, S["cell"]),
-                   Paragraph(f'<font color="{"#0E7C66" if ok else "#D95B4A"}"><b>{"PASS" if ok else "FIX"}</b></font>', S["cell"]),
+                   Paragraph(f'<font color="{"#176350" if ok else "#C0392B"}"><b>{"PASS" if ok else "FIX"}</b></font>', S["cell"]),
                    Paragraph(detail, S["celld"]),
-                   Paragraph(f'<font color="#E8A13C"><b>{fixref}</b></font>' if fixref else "—", S["celld"])])
+                   Paragraph(f'<font color="#D97757"><b>{fixref}</b></font>' if fixref else "—", S["celld"])])
 t = Table(f_rows, colWidths=[2.0*inch, 0.65*inch, 3.15*inch, 0.9*inch], repeatRows=1)
 style = [("BACKGROUND",(0,0),(-1,0),NAVY),("VALIGN",(0,0),(-1,-1),"TOP"),
          ("LEFTPADDING",(0,0),(-1,-1),8),("RIGHTPADDING",(0,0),(-1,-1),8),
@@ -288,15 +290,15 @@ if CLIENT.get("ai_mention"):
       "do. Here is the verbatim answer, and whether your business was named.", "body")
     E.append(callout(am.get("summary","AI mention check"),
         am.get("headline","Below is exactly what AI said when asked about your business and your category."),
-        LIGHT_AMBER, colors.HexColor("#B97A1E")))
+        LIGHT_AMBER, colors.HexColor("#B4552D")))
     SP(4)
     for chk in am.get("checks", []):
         eng, prompt, answer, mentioned = chk
         badge = "✓ You were named" if mentioned else "✗ You were NOT named"
         bcol = TEAL if mentioned else RED
         block = [
-            Paragraph(f'<b>{eng}</b> &nbsp; <font color="#4A5A6E" size="8">asked:</font> '
-                      f'<font color="#4A5A6E"><i>“{prompt}”</i></font>',
+            Paragraph(f'<b>{eng}</b> &nbsp; <font color="#5A554B" size="8">asked:</font> '
+                      f'<font color="#5A554B"><i>“{prompt}”</i></font>',
                       st(f"amq{eng}{prompt[:6]}", fontSize=10.5, spaceBefore=8, spaceAfter=2)),
             Paragraph(answer, st(f"ama{eng}{prompt[:6]}", fontSize=9.5, leading=13.5, leftIndent=12,
                       textColor=SLATE, spaceAfter=3, backColor=PALE, borderPadding=6)),
@@ -320,10 +322,10 @@ P("Ranked by impact on your score and on real AI recommendations. Impact and eff
   "— notice how much of this is high-impact, low-effort.", "small")
 SP(4)
 for i, (title, why, how, impact, effort) in enumerate(CLIENT["fixes"], 1):
-    dots = lambda n, c: f'<font color="{c}"><b>{"●"*n}</b></font><font color="#D3DAD6"><b>{"●"*(5-n)}</b></font>'
+    dots = lambda n, c: f'<font color="{c}"><b>{"●"*n}</b></font><font color="#E7E1D6"><b>{"●"*(5-n)}</b></font>'
     block = [
-        Paragraph(f'<font color="#0E7C66"><b>{i}. {title}</b></font>   '
-                  f'<font size="8">impact {dots(impact,"#0E7C66")}  ·  effort {dots(effort,"#E8A13C")}</font>',
+        Paragraph(f'<font color="#176350"><b>{i}. {title}</b></font>   '
+                  f'<font size="8">impact {dots(impact,"#176350")}  ·  effort {dots(effort,"#D97757")}</font>',
                   st(f"fx{i}", fontName="Helvetica-Bold", fontSize=11.5, leading=15, spaceBefore=8, spaceAfter=3)),
         Paragraph(f"<b>Why:</b> {why}", st(f"fw{i}", fontSize=9.5, leading=13.5, leftIndent=16, spaceAfter=2, textColor=SLATE)),
         Paragraph(f"<b>Do this:</b> {how}", st(f"fh{i}", fontSize=9.5, leading=13.5, leftIndent=16, spaceAfter=6)),
@@ -342,7 +344,7 @@ gbp_items = [
 gbp_rows = [[Paragraph("<b>Google Business Profile — your #1 local asset</b>", S["cellh"]),
              Paragraph("<b>Check yours</b>", S["cellh"])]]
 for name, desc in gbp_items:
-    gbp_rows.append([Paragraph(f"<b>{name}</b><br/><font size='8' color='#4A5A6E'>{desc}</font>",
+    gbp_rows.append([Paragraph(f"<b>{name}</b><br/><font size='8' color='#5A554B'>{desc}</font>",
                      st(f"gbp{name}", fontSize=9.5, leading=12, spaceAfter=0)),
                      Paragraph("(  ) Yes     (  ) No", st(f"gc{name}", fontSize=9.5, spaceAfter=0))])
 gt = Table(gbp_rows, colWidths=[5.1*inch, 1.6*inch])
@@ -485,7 +487,7 @@ E.append(KeepTogether([
     "Typical turnaround: about two weeks. "
     "Reply “ANSWER” to claim a spot — limited to a few businesses at a time. "
     "(For scale: a traditional SEO agency runs $3,000–$8,000/month on a contract.)",
-    LIGHT_AMBER, colors.HexColor("#B97A1E")),
+    LIGHT_AMBER, colors.HexColor("#B4552D")),
   Spacer(1, 6),
   callout("KEEP IT WARM — AO CARE ($249/mo · founding rate $149)",
     "Fixing your AO Score once is the start; staying the answer is the game. AO Care keeps your whole "
