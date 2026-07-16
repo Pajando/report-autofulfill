@@ -88,7 +88,7 @@ def cover_page(cv, doc):
     cv.drawString(1*inch, H-7.55*inch, "How visible your business is to ChatGPT, Gemini, Claude, Perplexity,")
     cv.drawString(1*inch, H-7.8*inch, "Google AI Mode, and the AI agents that now book and buy for customers.")
     cv.setFillColor(colors.HexColor("#8A857B")); cv.setFont("Helvetica", 9.5)
-    cv.drawString(1*inch, 0.85*inch, "Prepared by The AO Audit · aoaudit.com")
+    cv.drawString(1*inch, 0.85*inch, "Prepared by The AO Audit · Be the Answer · aoaudit.com")
     cv.restoreState()
 
 def content_page(cv, doc):
@@ -102,7 +102,7 @@ def content_page(cv, doc):
     left = f"AO REPORT — {biz.upper()} · {CLIENT['site'].upper()}" if biz \
            else f"AO REPORT — {CLIENT['site'].upper()}"
     cv.drawString(0.9*inch, 0.44*inch, left)
-    cv.drawRightString(W-0.9*inch, 0.44*inch, f"{doc.page}")
+    cv.drawRightString(W-0.9*inch, 0.44*inch, f"BE THE ANSWER · AOAUDIT.COM   ·   {doc.page}")
     cv.restoreState()
 
 # ---------- charts ----------
