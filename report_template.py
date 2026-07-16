@@ -201,6 +201,10 @@ P("How you compare", "h2")
 E.append(columns([("You today", CLIENT["score"]),
                   ("Typical small biz (our estimate)", 38),
                   ("AI-ready threshold", 85)], highlight=0))
+SP(10)
+E.append(callout("OUR PROMISE",
+  "We verify everything the machines read, we test what the machines actually say, "
+  "and we re-test after the fixes — and we don't fake the parts nobody can measure."))
 SP(6)
 E.append(callout("THE HEADLINE",
   f"You're already ahead of the typical small business ({CLIENT['score']} vs ~38) — your technical "
