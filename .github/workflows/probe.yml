@@ -4,16 +4,13 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: curl relays
+      - name: check files
         run: |
-          echo "=== ao-relay worker: no param (expect 400 missing url) ==="
-          curl -s -m 15 -w "\nHTTP %{http_code}\n" "https://ao-relay.aojedamedia.workers.dev/" || echo "FAILED exit $?"
-          echo "=== ao-relay worker: fetch example.com ==="
-          curl -s -m 20 -D /tmp/h -o /tmp/b -H "Origin: https://aoaudit.com" "https://ao-relay.aojedamedia.workers.dev/?url=https%3A%2F%2Fexample.com%2F" || echo "FAILED exit $?"
-          grep -Ei "^HTTP|access-control-allow-origin|x-ao-relay" /tmp/h || true
-          grep -c "Example Domain" /tmp/b || echo "body missing Example Domain"
-          echo "=== public relays for comparison ==="
-          for u in "https://api.allorigins.win/raw?url=https%3A%2F%2Faoaudit.com%2F" "https://api.codetabs.com/v1/proxy?quest=https%3A%2F%2Faoaudit.com%2F"; do
-            echo "--- $u"
-            curl -s -o /dev/null -w "HTTP %{http_code} in %{time_total}s\n" -m 20 "$u" || echo "FAILED exit $?"
+          for p in llms.txt sitemap.xml robots.txt; do
+            echo "=== https://cliffledevineyards.com/$p ==="
+            curl -s -m 20 -D /tmp/h -o /tmp/b -L "https://cliffledevineyards.com/$p" || echo "FAILED exit $?"
+            grep -Ei "^HTTP|content-type" /tmp/h | head -4
+            echo "--- first 3 lines of body:"
+            head -c 400 /tmp/b | head -3
+            echo ""
           done
