@@ -421,7 +421,7 @@ PLATFORMS = [
      "Web-wide brand presence (what the model learned) plus live web search via ClaudeBot / Claude-SearchBot.",
      "Keep ClaudeBot allowed, keep your facts in clean HTML and schema, and get discussed on the open web — Claude favors widely-documented businesses. Your llms.txt is also read by Claude-connected agent tools."),
     ("Siri / Apple Intelligence",
-     "Apple Maps — the ONLY source Siri checks for local businesses.",
+     "Apple Maps — the source Siri checks for local businesses. (Siri's harder questions hand off to ChatGPT, which runs on Bing's index — claim Apple Business AND Bing and you cover both of Siri's brains.)",
      "Claim <b>Apple Business</b> at business.apple.com (Business Connect merged into it in April 2026): full profile, photos, and action links (book, order)."),
     ("Amazon Alexa+",
      "Primarily Yelp, plus Bing Places and data aggregators.",
