@@ -358,6 +358,16 @@ for i, (title, why, how, impact, effort) in enumerate(CLIENT["fixes"], 1):
     ]
     E.append(KeepTogether(block))
 SP(8)
+E.append(callout("BONUS MOVE — PUBLISH ONE THING ONLY YOU CAN PUBLISH",
+  "AI can already write generic content itself, so it never needs to cite the business that posts "
+  "\u201c5 tips.\u201d The only content that FORCES a citation is what the machines can't generate: your "
+  "numbers, your story, what actually happened in your business. One page with real counts, real dates, "
+  "one photo, and one thing that went wrong (\u201cWe served 300 tastings this summer \u2014 here's what "
+  "people actually chose\u201d) beats ten generic posts. The test: if a competitor could paste your "
+  "article on their site and nothing would feel stolen, it's generic. If it would obviously be a lie on "
+  "their site \u2014 that's the page machines have to cite YOU for. Google's own guide calls this "
+  "non-commodity, people-first content with a unique point of view.", LIGHT_AMBER, colors.HexColor("#B4552D")))
+SP(8)
 # ---- Google Profile Scorecard ----
 gbp_items = [
     ("Claimed & verified", "The profile is claimed and verified by you"),
