@@ -392,6 +392,14 @@ for r in range(1,len(gbp_rows)):
     if r%2==0: gstyle.append(("BACKGROUND",(0,r),(-1,r),PALE))
 gt.setStyle(TableStyle(gstyle))
 E.append(KeepTogether([Paragraph("Your Google Profile scorecard", S["h2"]), Spacer(1,4), gt]))
+SP(6)
+E.append(Paragraph(
+  "<i>* NEW — Search generative AI control (inside Google Search Console): Google is rolling out an "
+  "Include/Exclude switch (Settings → AI controls) governing AI Overviews and AI Mode, country by country "
+  "(UK first, June 2026). It must say INCLUDE — and only someone with Console access can see it. We check "
+  "this WITH you during The Answer; if your country's rollout hasn't reached you yet (the default is "
+  "Include), we re-check it for you monthly under AO Care as Google expands it.</i>",
+  st("gscai", fontSize=8.5, leading=12, textColor=SLATE, spaceAfter=4)))
 SP(4)
 E.append(callout("WHY THIS GETS ITS OWN SCORECARD",
   "Google Business Profile is the single biggest local ranking factor there is — it feeds Google Maps "
