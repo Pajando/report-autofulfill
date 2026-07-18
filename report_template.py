@@ -191,6 +191,7 @@ E.append(summary)
 SP(10)
 P("Your four pillars", "h2")
 P("AI companies don't publish a scoring rubric — these four pillars are how we organize the factors "
+  "of Answer Optimization (AO — the practice the industry also calls AEO and GEO) "
   "that research shows actually drive AI visibility: <b>Entity</b> (can machines identify and trust "
   "you?), <b>Content</b> (do your pages hand them quotable answers?), <b>Code</b> (is your site "
   "machine-readable?), <b>Agents</b> (could an AI complete a booking?). Every check rolls up into one.", "small")
