@@ -191,11 +191,7 @@ def main():
         client = build_client(data)
         rep = fetch_reputation(client.get("business"), client.get("site"), client.get("locality", ""))
         if rep:
-            client["findings"].append((
-                "Google rating (live pull, report day)", True,
-                f"{rep['rating']}\u2605 \u00b7 {rep['count']} reviews on Google (official Places data, pulled the day this report was built). "
-                + ("A strong human-trust signal \u2014 now make the machines see it." if rep["count"] >= 10 else
-                   "A thin review base \u2014 the review-engine fix below matters double."), ""))
+            client["reputation"] = {"rating": rep["rating"], "count": rep["count"], "source": "Google"}
         pdf = generate_pdf(client)
         print("TEST OK — generated:", pdf)
         return
