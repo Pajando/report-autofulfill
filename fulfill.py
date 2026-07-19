@@ -55,7 +55,8 @@ def fetch_reputation(business, site, locality=""):
         q = urllib.parse.quote(query)
         req = urllib.request.Request(
             f"https://ao-relay.aojedamedia.workers.dev/places?q={q}",
-            headers={"Origin": "https://aoaudit.com"})
+            headers={"Origin": "https://aoaudit.com",
+                     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"})
         with urllib.request.urlopen(req, timeout=10) as r:
             j = _json.loads(r.read().decode())
         if j.get("rating") and _name_matches(business, j.get("name", "")):
