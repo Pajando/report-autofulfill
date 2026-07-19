@@ -6,4 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: audit
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python3 probe/audit.py
