@@ -16,7 +16,6 @@ from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph,
 from reportlab.graphics.shapes import Drawing, Rect, String, Line, Circle, Wedge
 
 # ================== CLIENT LOADED FROM JSON ==================
-# CLIENT is loaded from a JSON file passed as argv[1] (built by fulfill.py)
 import json, sys
 CLIENT = json.load(open(sys.argv[1]))
 # ===================================================
@@ -203,6 +202,14 @@ E.append(columns([("You today", CLIENT["score"]),
                   ("Typical small biz (our estimate)", 38),
                   ("AI-ready threshold", 85)], highlight=0))
 SP(10)
+if CLIENT.get("reputation") and CLIENT["reputation"].get("rating"):
+    _rep = CLIENT["reputation"]
+    E.append(callout("WHAT REAL CUSTOMERS ALREADY SAY",
+      f"<b>{_rep['rating']}\u2605 across {_rep['count']} reviews on Google</b> (official Places data, pulled the day "
+      f"this report was built). Real people already trust you \u2014 the gap this report measures is whether the "
+      f"machines can SEE that trust and pass it on. Your reputation isn't the problem; your machine-visibility is.",
+      LIGHT_ACCENT if 'LIGHT_ACCENT' in dir() else PALE, TEAL))
+    SP(6)
 E.append(callout("OUR PROMISE",
   "We verify everything the machines read, we test what the machines actually say, "
   "and we re-test after the fixes — and we don't fake the parts nobody can measure."))
@@ -530,7 +537,7 @@ E.append(KeepTogether([
     "installed and validated, all profiles claimed (Google, Bing, Apple, Yelp), FAQ page live, prices "
     "published, and a before/after re-scan. <b>Every fix implemented and verified, or it's free.</b> "
     "Typical turnaround: about two weeks. "
-    "Reply “ANSWER” to claim a spot — limited to a few businesses at a time. "
+    "Reply “ANSWER” to claim a spot, or <a href='https://buy.stripe.com/6oU28s1Dg0CudLT9oH9sk00' color='#B4552D'><b>buy The Answer now</b></a> — limited to a few businesses at a time. "
     "(For scale: a traditional SEO agency runs $3,000–$8,000/month on a contract.)",
     LIGHT_AMBER, colors.HexColor("#B4552D")),
   Spacer(1, 6),
@@ -539,7 +546,7 @@ E.append(KeepTogether([
     "score climbing every month: Google Business Profile upkeep (posts, reviews, Q&A, categories — your "
     "#1 local asset, feeding Maps AND Gemini), a monthly re-scan so you can watch your number hold and "
     "rise, and one improvement applied for you. $249/mo, no contract, cancel anytime — and the first 5 "
-    "businesses lock in a founding rate of $149/mo for life. Reply “CARE” to claim it.",
+    "businesses lock in a founding rate of $149/mo for life. Reply “CARE” to claim the founding rate, or <a href='https://buy.stripe.com/3cIeVedlYetkePX8kD9sk01' color='#1E8468'><b>start AO Care now at $249/mo</b></a>.",
     LIGHT_TEAL, TEAL),
   Spacer(1, 10),
   Paragraph("Report prepared by Alejandro Ojeda · Be the Answer — aoaudit.com · Data: live site scan "
