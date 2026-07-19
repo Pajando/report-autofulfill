@@ -222,13 +222,13 @@ def main():
             continue
         try:
             client = build_client(data)
-        rep = fetch_reputation(client.get("business"), client.get("site"))
-        if rep:
-            client["findings"].append((
-                "Google rating (live pull, report day)", True,
-                f"{rep['rating']}\u2605 \u00b7 {rep['count']} reviews on Google (official Places data, pulled the day this report was built). "
-                + ("A strong human-trust signal \u2014 now make the machines see it." if rep["count"] >= 10 else
-                   "A thin review base \u2014 the review-engine fix below matters double."), ""))
+            rep = fetch_reputation(client.get("business"), client.get("site"))
+            if rep:
+                client["findings"].append((
+                    "Google rating (live pull, report day)", True,
+                    f"{rep['rating']}\u2605 \u00b7 {rep['count']} reviews on Google (official Places data, pulled the day this report was built). "
+                    + ("A strong human-trust signal \u2014 now make the machines see it." if rep["count"] >= 10 else
+                       "A thin review base \u2014 the review-engine fix below matters double."), ""))
             pdf = generate_pdf(client)
             send_report(user, pw, lead_email, client, pdf)
             box.store(num, "+FLAGS", "\\Seen")
