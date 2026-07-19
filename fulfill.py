@@ -31,19 +31,34 @@ ALL_ENGINES = ["ChatGPT / OpenAI", "Claude / Anthropic", "Gemini / Google AI",
                "DuckDuckGo AI", "Model training (Common Crawl)", "ByteDance / Doubao"]
 
 
-def fetch_reputation(business, site):
+def _name_matches(business, returned):
+    """Guard against Places fuzzy-matching a different business (e.g. 'Vinos Unidos Napa'
+    once returned a 'Vino\'s' in Arkansas). Require real word overlap before trusting."""
+    if not business or not returned:
+        return False
+    import re
+    stop = {"the","and","of","a","inc","llc","co","company","winery","vineyards","vineyard","wines","wine","restaurant","cafe","bar"}
+    def words(x): return {w for w in re.findall(r"[a-z0-9]+", x.lower()) if len(w) > 2 and w not in stop}
+    b, r = words(business), words(returned)
+    if not b: return False
+    return len(b & r) >= max(1, len(b) // 2)  # at least half the distinctive words must match
+
+
+def fetch_reputation(business, site, locality=""):
     """Lead-triggered Google rating pull via our worker's /places endpoint.
-    DORMANT until the PLACES_KEY secret is configured on the worker — any
-    error or non-JSON response is silently skipped (report builds fine without it)."""
+    Sends a PRECISE query (business + locality) and verifies the returned name
+    actually matches before trusting it — Places fuzzy-matches, so a loose query
+    can return a stranger. Any error, mismatch, or non-JSON = silently skipped."""
     try:
         import urllib.request, urllib.parse, json as _json
-        q = urllib.parse.quote(f"{business or site}")
+        query = f"{business} {locality}".strip() if business else site
+        q = urllib.parse.quote(query)
         req = urllib.request.Request(
             f"https://ao-relay.aojedamedia.workers.dev/places?q={q}",
             headers={"Origin": "https://aoaudit.com"})
         with urllib.request.urlopen(req, timeout=10) as r:
             j = _json.loads(r.read().decode())
-        if j.get("rating"):
+        if j.get("rating") and _name_matches(business, j.get("name", "")):
             return j
     except Exception:
         pass
@@ -173,7 +188,7 @@ def main():
     if len(sys.argv) == 3 and sys.argv[1] == "--test":
         data = json.load(open(sys.argv[2]))
         client = build_client(data)
-        rep = fetch_reputation(client.get("business"), client.get("site"))
+        rep = fetch_reputation(client.get("business"), client.get("site"), client.get("locality", ""))
         if rep:
             client["findings"].append((
                 "Google rating (live pull, report day)", True,
@@ -222,7 +237,7 @@ def main():
             continue
         try:
             client = build_client(data)
-            rep = fetch_reputation(client.get("business"), client.get("site"))
+            rep = fetch_reputation(client.get("business"), client.get("site"), client.get("locality", ""))
             if rep:
                 client["findings"].append((
                     "Google rating (live pull, report day)", True,
