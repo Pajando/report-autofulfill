@@ -31,6 +31,25 @@ ALL_ENGINES = ["ChatGPT / OpenAI", "Claude / Anthropic", "Gemini / Google AI",
                "DuckDuckGo AI", "Model training (Common Crawl)", "ByteDance / Doubao"]
 
 
+def fetch_reputation(business, site):
+    """Lead-triggered Google rating pull via our worker's /places endpoint.
+    DORMANT until the PLACES_KEY secret is configured on the worker — any
+    error or non-JSON response is silently skipped (report builds fine without it)."""
+    try:
+        import urllib.request, urllib.parse, json as _json
+        q = urllib.parse.quote(f"{business or site}")
+        req = urllib.request.Request(
+            f"https://ao-relay.aojedamedia.workers.dev/places?q={q}",
+            headers={"Origin": "https://aoaudit.com"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            j = _json.loads(r.read().decode())
+        if j.get("rating"):
+            return j
+    except Exception:
+        pass
+    return None
+
+
 def build_client(data):
     """Transform the site's report_json into the template's CLIENT dict."""
     score = int(data["score"])
@@ -66,6 +85,7 @@ def build_client(data):
         "pillars": data["pillars"],
         "engines": {e: (e not in blocked) for e in ALL_ENGINES},
         "findings": findings,
+        "_reputation": None,
         "fixes": fixes,
         "projected": max(86, min(95, score + 30)) if score < 86 else min(97, score + 4),
     }
@@ -153,6 +173,13 @@ def main():
     if len(sys.argv) == 3 and sys.argv[1] == "--test":
         data = json.load(open(sys.argv[2]))
         client = build_client(data)
+        rep = fetch_reputation(client.get("business"), client.get("site"))
+        if rep:
+            client["findings"].append((
+                "Google rating (live pull, report day)", True,
+                f"{rep['rating']}\u2605 \u00b7 {rep['count']} reviews on Google (official Places data, pulled the day this report was built). "
+                + ("A strong human-trust signal \u2014 now make the machines see it." if rep["count"] >= 10 else
+                   "A thin review base \u2014 the review-engine fix below matters double."), ""))
         pdf = generate_pdf(client)
         print("TEST OK — generated:", pdf)
         return
@@ -195,6 +222,13 @@ def main():
             continue
         try:
             client = build_client(data)
+        rep = fetch_reputation(client.get("business"), client.get("site"))
+        if rep:
+            client["findings"].append((
+                "Google rating (live pull, report day)", True,
+                f"{rep['rating']}\u2605 \u00b7 {rep['count']} reviews on Google (official Places data, pulled the day this report was built). "
+                + ("A strong human-trust signal \u2014 now make the machines see it." if rep["count"] >= 10 else
+                   "A thin review base \u2014 the review-engine fix below matters double."), ""))
             pdf = generate_pdf(client)
             send_report(user, pw, lead_email, client, pdf)
             box.store(num, "+FLAGS", "\\Seen")
