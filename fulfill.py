@@ -101,6 +101,7 @@ def build_client(data):
         "pillars": data["pillars"],
         "engines": {e: (e not in blocked) for e in ALL_ENGINES},
         "findings": findings,
+        "self_reported": data.get("self_reported", []),
         "_reputation": None,
         "fixes": fixes,
         "projected": max(86, min(95, score + 30)) if score < 86 else min(97, score + 4),

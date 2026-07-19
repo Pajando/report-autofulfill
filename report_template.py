@@ -301,6 +301,43 @@ t.setStyle(TableStyle(style))
 E.append(t)
 PB()
 
+# ===== SELF-ASSESSMENT — auto reports only (self-reported, not verified) =====
+if CLIENT.get("self_reported"):
+    P("YOU TOLD US", "kicker")
+    P("Your Self-Assessment — Not Yet Verified", "h1")
+    RULE()
+    P("These are the account-level signals a scan can't confirm from the outside \u2014 your Google Business "
+      "Profile, your reviews, your listings on other platforms, and whether AI actually names you. You answered "
+      "them yourself, so we show them as your own snapshot. Two honest points: your AO Score above counts ONLY "
+      "the checks we verified ourselves, so nothing here inflated or deflated your number; and confirming every "
+      "item below \u2014 with your permission \u2014 is exactly what the done-for-you service does.", "body")
+    SP(4)
+    _sa = [[Paragraph("<b>Question</b>", S["cellh"]), Paragraph("<b>You said</b>", S["cellh"]),
+            Paragraph("<b>Why it matters</b>", S["cellh"])]]
+    _amap = {"yes": ("#176350", "YES"), "no": ("#C0392B", "NO"), "unsure": ("#8A7E63", "NOT SURE")}
+    for _row in CLIENT["self_reported"]:
+        _q = _row[0]; _ans = (_row[1] or "unsure"); _why = _row[2] if len(_row) > 2 else ""
+        _col, _lab = _amap.get(_ans, ("#8A7E63", "NOT SURE"))
+        _sa.append([Paragraph(_q, S["cell"]),
+                    Paragraph(f'<font color="{_col}"><b>{_lab}</b></font>', S["cell"]),
+                    Paragraph(_why, S["celld"])])
+    _sat = Table(_sa, colWidths=[3.1*inch, 0.85*inch, 2.75*inch], repeatRows=1)
+    _sst = [("BACKGROUND",(0,0),(-1,0),NAVY),("VALIGN",(0,0),(-1,-1),"TOP"),
+            ("LEFTPADDING",(0,0),(-1,-1),8),("RIGHTPADDING",(0,0),(-1,-1),8),
+            ("TOPPADDING",(0,0),(-1,-1),5),("BOTTOMPADDING",(0,0),(-1,-1),5),
+            ("LINEBELOW",(0,0),(-1,-2),0.5,LINE)]
+    for _r in range(1, len(_sa)):
+        if _r % 2 == 0: _sst.append(("BACKGROUND",(0,_r),(-1,_r),PALE))
+    _sat.setStyle(TableStyle(_sst))
+    E.append(_sat)
+    SP(6)
+    E.append(callout("WHY WE SEPARATE THESE",
+      "Anyone can hand you a score built partly on answers you gave yourself \u2014 that's a mirror, not an "
+      "audit. Your verified AO Score is the number you can defend to a skeptic. When you're ready, The Answer "
+      "confirms every self-reported item above and fixes what's missing \u2014 every fix implemented and "
+      "verified, or it's free.", LIGHT_AMBER, colors.HexColor("#B4552D")))
+    PB()
+
 # ===== WHAT AI ACTUALLY SAID (optional) =====
 if CLIENT.get("ai_mention"):
     am = CLIENT["ai_mention"]
