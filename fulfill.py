@@ -215,7 +215,8 @@ def main():
     # Label-based dedup (not UNSEEN): find lead emails NOT yet handled, whether or not a human
     # has opened them. Fixes the silent lead loss where reading the notification marked it Seen
     # and the robot skipped it forever.
-    raw = f'from:formsubmit.co subject:"{LEAD_SUBJECT}" -label:{DONE_LABEL} -label:{HOLD_LABEL}'
+    # every formsubmit.co email to this inbox is an AO audit lead (that's the only form using it)
+    raw = f'from:formsubmit.co -label:{DONE_LABEL} -label:{HOLD_LABEL}'
     ok, ids = box.search(None, 'X-GM-RAW', f'"{raw}"')
     ids = ids[0].split() if ok == "OK" else []
     print(f"{len(ids)} new lead(s)")
