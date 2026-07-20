@@ -136,6 +136,7 @@ def send_report(user, pw, lead_email, client, pdf_path):
     msg["From"] = f"Alejandro Ojeda — Be the Answer <{user}>"
     msg["To"] = lead_email
     msg["Subject"] = f"Your AO Report — {biz} ({client['score']}/100)"
+    msg["Bcc"] = user  # silent copy to Alejandro — identical email + PDF land in his inbox for every report sent
     msg.set_content(f"""Hi {first},
 
 Your full AO Report for {biz} is attached — your AO Score breakdown — every finding from
