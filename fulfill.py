@@ -19,6 +19,13 @@ from datetime import date
 IMAP_HOST, SMTP_HOST = "imap.gmail.com", "smtp.gmail.com"
 LEAD_SUBJECT = "AO Audit lead"
 SKIP_DOMAINS = ("example.com", "example.org", "test.com")
+DONE_LABEL = "AO-Processed"   # applied after a report is sent (or a lead is intentionally skipped)
+HOLD_LABEL = "AO-Manual"      # applied to leads that need a human (relay outage, old-format)
+
+def mark(box, num, label):
+    """Apply a Gmail label so this lead is never reprocessed — dedup that survives the human
+    reading the notification email (the old UNSEEN approach lost leads that were read first)."""
+    box.store(num, "+X-GM-LABELS", f'"{label}"')
 
 VERDICTS = {
     "Agent-ready": "You're ahead of ~99% of businesses. This report shows how to protect the lead — this landscape shifts quarterly.",
@@ -204,24 +211,33 @@ def main():
 
     box = imaplib.IMAP4_SSL(IMAP_HOST)
     box.login(user, pw)
-    box.select("INBOX")
-    ok, ids = box.search(None, 'UNSEEN', 'FROM', '"formsubmit.co"',
-                         'SUBJECT', f'"{LEAD_SUBJECT}"')
+    box.select('"[Gmail]/All Mail"')
+    # Label-based dedup (not UNSEEN): find lead emails NOT yet handled, whether or not a human
+    # has opened them. Fixes the silent lead loss where reading the notification marked it Seen
+    # and the robot skipped it forever.
+    raw = f'from:formsubmit.co subject:"{LEAD_SUBJECT}" -label:{DONE_LABEL} -label:{HOLD_LABEL}'
+    ok, ids = box.search(None, 'X-GM-RAW', f'"{raw}"')
     ids = ids[0].split() if ok == "OK" else []
     print(f"{len(ids)} new lead(s)")
     for num in ids:
+        # belt-and-suspenders: recheck labels per message in case the search filter drifts
+        okl, lab = box.fetch(num, "(X-GM-LABELS)")
+        labstr = lab[0].decode("utf-8", "replace") if okl == "OK" and lab and lab[0] else ""
+        if DONE_LABEL in labstr or HOLD_LABEL in labstr:
+            continue
         ok, parts = box.fetch(num, "(RFC822)")
         if ok != "OK":
             continue
         data = extract_report_json(parts[0][1])
         if not data:
-            print(f"  lead {num.decode()}: no report_json (old-format lead) — leaving for manual handling")
-            box.store(num, "+FLAGS", "\\Seen")
+            print(f"  lead {num.decode()}: no report_json (old-format lead) — flagged {HOLD_LABEL} for manual handling")
+            mark(box, num, HOLD_LABEL)
             continue
         if data.get("relay_outage"):
             # scan ran during a relay outage — automated findings are missing and the site
-            # promised "we'll run your full scan ourselves". Leave UNREAD for the human.
-            print(f"  lead {num.decode()}: RELAY OUTAGE during their scan — leaving unread for a manual full scan")
+            # promised "we'll run your full scan ourselves". Flag for the human, don't auto-send.
+            print(f"  lead {num.decode()}: RELAY OUTAGE during their scan — flagged {HOLD_LABEL} for a manual full scan")
+            mark(box, num, HOLD_LABEL)
             continue
         lead_email = (data.get("email") or "").strip()
         if not lead_email:
@@ -230,8 +246,8 @@ def main():
             m = re.search(r"email</td>\s*<td[^>]*>.*?([\w.+-]+@[\w.-]+\.\w+)", body, re.S | re.I)
             lead_email = m.group(1) if m else ""
         if not lead_email or lead_email.split("@")[-1].lower() in SKIP_DOMAINS:
-            print(f"  lead {num.decode()}: no usable email ({lead_email!r}) — skipped")
-            box.store(num, "+FLAGS", "\\Seen")
+            print(f"  lead {num.decode()}: no usable email ({lead_email!r}) — marked {DONE_LABEL}")
+            mark(box, num, DONE_LABEL)
             continue
         try:
             client = build_client(data)
@@ -244,10 +260,11 @@ def main():
                        "A thin review base \u2014 the review-engine fix below matters double."), ""))
             pdf = generate_pdf(client)
             send_report(user, pw, lead_email, client, pdf)
+            mark(box, num, DONE_LABEL)
             box.store(num, "+FLAGS", "\\Seen")
             print(f"  sent {client['site']} ({client['score']}/100) -> {lead_email}")
         except Exception as e:
-            print(f"  lead {num.decode()}: FAILED — {e} (left unseen for retry)")
+            print(f"  lead {num.decode()}: FAILED — {e} (no label — retried next run)")
     box.logout()
 
 
