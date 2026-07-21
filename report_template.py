@@ -485,7 +485,7 @@ PLATFORMS = [
      "Keep ClaudeBot allowed, keep your facts in clean HTML and schema, and get discussed on the open web — Claude favors widely-documented businesses. Your llms.txt is also read by Claude-connected agent tools."),
     ("Siri / Apple Intelligence",
      "Apple Maps — the source Siri checks for local businesses. (Siri's harder questions hand off to ChatGPT, which runs on Bing's index — claim Apple Business AND Bing and you cover both of Siri's brains.)",
-     "Claim <b>Apple Business</b> at business.apple.com (Business Connect merged into it in April 2026): full profile, photos, and action links (book, order)."),
+     "Storefront? Claim <b>Apple Business</b> at business.apple.com (Business Connect merged into it, April 2026): full profile, photos, action links. Service-area with no public address? Apple's location flow still expects a visitable address — claim the free brand identity anyway (logo in Mail, Caller ID), and surface in Siri indirectly via a strong Yelp listing (a top Apple Maps data source) + your Google service-area profile."),
     ("Amazon Alexa+",
      "Primarily Yelp, plus Bing Places and data aggregators.",
      "Claim your free listing at <b>biz.yelp.com</b> and keep hours/services current; leave Amazonbot allowed in robots.txt."),
