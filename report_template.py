@@ -232,7 +232,7 @@ eng_rows = [[Paragraph("<b>AI ecosystem</b>", S["cellh"]),
              Paragraph("<b>Access</b>", S["cellh"]),
              Paragraph("<b>What it powers</b>", S["cellh"])]]
 POWERS = {
-    "ChatGPT / OpenAI": "ChatGPT answers, search citations, Instant Checkout shopping",
+    "ChatGPT / OpenAI": "ChatGPT answers, search citations, shopping recommendations",
     "Claude / Anthropic": "Claude answers and research citations",
     "Gemini / Google AI": "Gemini grounding, AI Mode context, Spark agents",
     "Perplexity": "Perplexity answers — the most citation-hungry engine",
@@ -505,8 +505,8 @@ PLATFORMS = [
      "Foursquare, Data Axle and similar aggregators quietly feed many assistants and maps.",
      "Keep your name/address/phone <b>identical everywhere</b>; claim the big aggregators once (free) or use a listings service when revenue justifies it."),
     ("Tomorrow's agent rails",
-     "Agentic Commerce Protocol (OpenAI/Stripe — Etsy, Shopify, PayPal), Google's commerce protocol, MCP.",
-     "If you sell products, platforms like Etsy/Shopify put you on the rails automatically; keep Product schema and your Merchant Center feed clean. Re-check this list quarterly — it will grow."),
+     "Agentic Commerce Protocol (the open OpenAI/Stripe spec), Google's commerce protocol, MCP. OpenAI pulled back in-chat checkout (March 2026): AI now discovers products, then routes buyers to YOUR site to buy.",
+     "If you sell products, keep Product schema and your Merchant Center feed clean — under the discover-in-AI, buy-on-your-site model, your own site closes the sale. Re-check this list quarterly — it will grow."),
 ]
 for name, feeds, move in PLATFORMS:
     plat_rows.append([Paragraph(f"<b>{name}</b>", S["cell"]),
